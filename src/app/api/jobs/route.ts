@@ -1,8 +1,23 @@
-import { NextResponse } from "next/server";
+import { Job } from "@/types/app";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET() {
+function filterJobs(jobs: Job[], search: string): Job[] {
+  if (!search) return jobs;
+  const s = search.toLowerCase();
+  return jobs.filter(
+    (job) =>
+      job.title.toLowerCase().includes(s) ||
+      job.department.toLowerCase().includes(s) ||
+      job.location.toLowerCase().includes(s)
+  );
+}
+
+export async function GET(req: NextRequest) {
+  const { searchParams } = new URL(req.url);
+  const search = searchParams.get("search") || "";
+
   // Mock job data
-  const jobs = [
+  const jobs: Job[] = [
     {
       id: "1",
       title: "Frontend Engineer",
@@ -46,5 +61,7 @@ export async function GET() {
       dataSync: "error",
     },
   ];
-  return NextResponse.json({ jobs });
-} 
+
+  const filteredJobs = filterJobs(jobs, search);
+  return NextResponse.json({ jobs: filteredJobs });
+}

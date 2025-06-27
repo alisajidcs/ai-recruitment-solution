@@ -1,21 +1,29 @@
 import { JobTable } from "@/components/JobTable";
+import { JobSearchExportBar } from "@/components/JobSearchExportBar";
 import { Job } from "@/types/app";
 
-async function getJobs(): Promise<Job[]> {
-  const res = await fetch(`${process.env.BASE_URL}/api/jobs`, {
+async function getJobs(search: string): Promise<Job[]> {
+  const params = search ? `?search=${encodeURIComponent(search)}` : "";
+  const res = await fetch(`${process.env.BASE_URL}/api/jobs${params}`, {
     cache: "no-store",
   });
   const data = await res.json();
   return data.jobs;
 }
 
-export default async function Dashboard() {
-  const jobs = await getJobs();
+export default async function Dashboard({
+  searchParams,
+}: {
+  searchParams: { search?: string };
+}) {
+  const { search = " " } = await searchParams;
+  const jobs = await getJobs(search);
+
   return (
     <div className="max-w-6xl mx-auto py-10 px-4">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
         <h1 className="text-3xl font-bold">Dashboard</h1>
-        {/* TODO: Implement Search and export */}
+        <JobSearchExportBar search={search} />
       </div>
       <div className="overflow-x-auto rounded-lg border">
         <table className="min-w-full text-sm">
