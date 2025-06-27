@@ -1,5 +1,5 @@
-import { JobTable } from "@/components/JobTable";
-import { JobSearchExportBar } from "@/components/JobSearchExportBar";
+import { JobTable } from "@/components/job/JobTable";
+import { JobSearchExportBar } from "@/components/job/JobSearchExportBar";
 import { Job } from "@/types/app";
 
 async function getJobs(search: string): Promise<Job[]> {
@@ -16,7 +16,7 @@ export default async function Dashboard({
 }: {
   searchParams: { search?: string };
 }) {
-  const { search = " " } = await searchParams;
+  const { search = "" } = await searchParams;
   const jobs = await getJobs(search);
 
   return (
