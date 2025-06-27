@@ -1,21 +1,32 @@
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
-  const { id } = params;
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const { id } = await params;
 
   // Mock job detail data
   const job = {
     id,
-    title: id === "1" ? "Frontend Engineer" : id === "2" ? "Backend Developer" : "Product Manager",
+    title:
+      id === "1"
+        ? "Frontend Engineer"
+        : id === "2"
+        ? "Backend Developer"
+        : "Product Manager",
     department: id === "1" || id === "2" ? "Engineering" : "Product",
-    location: id === "1" ? "Remote" : id === "2" ? "Berlin, Germany" : "London, UK",
-    postedDate: id === "1" ? "2024-06-01" : id === "2" ? "2024-05-28" : "2024-05-25",
+    location:
+      id === "1" ? "Remote" : id === "2" ? "Berlin, Germany" : "London, UK",
+    postedDate:
+      id === "1" ? "2024-06-01" : id === "2" ? "2024-05-28" : "2024-05-25",
     description: "This is a mock job description for the position.",
-    skills: id === "1"
-      ? ["React", "TypeScript", "CSS", "Tailwind"]
-      : id === "2"
-      ? ["Node.js", "TypeScript", "PostgreSQL", "Docker"]
-      : ["Agile", "Product Strategy", "Communication"],
+    skills:
+      id === "1"
+        ? ["React", "TypeScript", "CSS", "Tailwind"]
+        : id === "2"
+        ? ["Node.js", "TypeScript", "PostgreSQL", "Docker"]
+        : ["Agile", "Product Strategy", "Communication"],
     experienceLevel: id === "3" ? "Senior" : "Mid",
     qualifications: ["Bachelor's Degree", "Relevant Experience"],
     candidates: [
@@ -41,4 +52,4 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
   };
 
   return NextResponse.json({ job });
-} 
+}
