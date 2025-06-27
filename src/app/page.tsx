@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import Link from "next/link";
 
 interface Job {
   id: string;
@@ -121,9 +122,12 @@ export default function Dashboard() {
                     )}
                   </td>
                   <td className="px-4 py-2">
-                    <Button size="sm" variant="outline">
+                    <Link
+                      href={`/job/${job.id}`}
+                      className="inline-flex items-center justify-center rounded-md border border-input bg-background px-3 py-1 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+                    >
                       View
-                    </Button>
+                    </Link>
                   </td>
                 </tr>
               ))
