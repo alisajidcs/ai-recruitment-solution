@@ -2,18 +2,21 @@ import { Badge } from "@/components/ui/badge";
 import { CandidateScoreBar } from "./CandidateScoreBar";
 import Link from "next/link";
 
-interface Candidate {
+type Candidate = {
   id: string;
   name: string;
   matchScore: number;
   label: string;
-}
+};
 
 export function CandidateTableRow({ candidate }: { candidate: Candidate }) {
   return (
     <tr className="border-t">
       <td className="px-4 py-2 font-medium">
-        <Link href={`/candidate/${candidate.id}`} className="text-blue-600 hover:underline">
+        <Link
+          href={`/candidate/${candidate.id}`}
+          className="text-blue-600 hover:underline"
+        >
           {candidate.name}
         </Link>
       </td>
