@@ -1,5 +1,6 @@
 import { Job } from "@/types/app";
 import { NextRequest, NextResponse } from "next/server";
+import { mockJobs } from "../data";
 
 function jobsToCSV(jobs: Job[]): string {
   const header = [
@@ -37,11 +38,17 @@ export async function GET(req: NextRequest) {
   const format = searchParams.get("format") || "csv";
   const search = searchParams.get("search") || "";
 
-  // Fetch jobs from the /api/jobs endpoint with the same search param
-  const params = search ? `?search=${encodeURIComponent(search)}` : "";
-  const apiRes = await fetch(`${process.env.BASE_URL || ""}/api/jobs${params}`);
-  const apiData = await apiRes.json();
-  const jobs: Job[] = apiData.jobs;
+  // Use mockJobs from data file
+  let jobs: Job[] = mockJobs as Job[];
+  if (search) {
+    const s = search.toLowerCase();
+    jobs = jobs.filter(
+      (job) =>
+        job.title.toLowerCase().includes(s) ||
+        job.department.toLowerCase().includes(s) ||
+        job.location.toLowerCase().includes(s)
+    );
+  }
 
   let fileContent: string, contentType: string, fileName: string;
   if (format === "excel") {
